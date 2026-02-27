@@ -155,7 +155,7 @@ func applyToRealResources(ctx xds_context.Context, rules core_rules.SingleItemRu
 }
 
 func configureListener(ctx xds_context.Context, rules core_rules.SingleItemRules, proxy *xds.Proxy, listener *envoy_listener.Listener, destination string) error {
-	serviceName := proxy.Dataplane.Spec.GetIdentifyingService()
+	serviceName := proxy.Dataplane.IdentifyingName(ctx.ControlPlane != nil && ctx.ControlPlane.InboundTagsDisabled)
 	rawConf := rules.Rules[0].Conf
 	conf := rawConf.(api.Conf)
 

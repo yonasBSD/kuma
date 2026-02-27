@@ -75,7 +75,7 @@ func CreateOutboundPassthroughListener(
 	outboundPort uint32,
 	statPrefix string,
 ) (envoy_common.NamedResource, error) {
-	sourceService := proxy.Dataplane.Spec.GetIdentifyingService()
+	sourceService := proxy.Dataplane.IdentifyingName(ctx.ControlPlane != nil && ctx.ControlPlane.InboundTagsDisabled)
 	meshName := ctx.Mesh.Resource.GetMeta().GetName()
 
 	listener, err := envoy_listeners.NewOutboundListenerBuilder(proxy.APIVersion, allIP, outboundPort, model.SocketAddressProtocolTCP).
